@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MTW</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Encendiendo un led</string>
+    <string name="menu_settings">Opciones</string>
+    <string name="title_activity_main">Led</string>
+    <string name="bluetooth">Conectarse a casa</string>
+    <string name="On">Apagar</string>
+    <string name="Off">Encender</string>
+    <string name="vacio"></string>
+    <string name="liv1">Living 1</string>
+    <string name="liv2">Living 2</string>
+    <string name="hab">\n\nHabitación</string>
+    <string name="sof">Te amo bebu &lt;3</string>
+    <string name="author">Matías Amuchástegui</string>
+    <string name="Desconexion">Desconectar</string>
+</resources>
