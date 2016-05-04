@@ -13,8 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.widget.Button;
 
 import com.example.mati.mtw.R;
 
@@ -54,54 +57,60 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*final ToggleButton BotonLiv1 = (ToggleButton)findViewById(R.id.Led1);
-        BotonLiv1.setOnClickListener(new View.OnClickListener() {
+        final Button BotonUp = (Button)findViewById(R.id.up);
+        BotonUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View vv) {
-
-                if(BotonLiv1.isChecked())     {
-                    if(D) Log.e("BotonLiv1", "Encendiendo..");
-                    sendMessage("1\r");
-                    findViewById(R.id.Led1).setBackgroundResource(R.drawable.luz1);
-                }
-                else {
-                    if(D) Log.e("BotonLiv1", "Apagando..");
-                    sendMessage("2\r");
-                    findViewById(R.id.Led1).setBackgroundResource(R.drawable.luz2);
-                }
+                if (D) Log.e("Subir", "Subiendo..");
+                sendMessage("u\r");
+                findViewById(R.id.progress).setVisibility(View.VISIBLE);
+                findViewById(R.id.engranaje).setVisibility(View.VISIBLE);
+                findViewById(R.id.engranaje).setBackgroundResource(R.drawable.eng1);
             }
         });
-        final ToggleButton BotonLiv2 = (ToggleButton)findViewById(R.id.Led2);
-        BotonLiv2.setOnClickListener(new View.OnClickListener() {
+        final Button BotonDown = (Button)findViewById(R.id.down);
+        BotonDown.setOnClickListener(new View.OnClickListener() {
             public void onClick(View vv) {
-
-                if(BotonLiv2.isChecked())     {
-                    if(D) Log.e("BotonLiv2", "Encendiendo..");
-                    sendMessage("3\r");
-                    findViewById(R.id.Led2).setBackgroundResource(R.drawable.luz1);
-                }
-                else {
-                    if(D) Log.e("BotonLiv2", "Apagando..");
-                    sendMessage("4\r");
-                    findViewById(R.id.Led2).setBackgroundResource(R.drawable.luz2);
-                }
+                if(D) Log.e("Down", "Bajando..");
+                sendMessage("d\r");
+                findViewById(R.id.progress).setVisibility(View.VISIBLE);
+                findViewById(R.id.engranaje).setVisibility(View.VISIBLE);
+                findViewById(R.id.engranaje).setBackgroundResource(R.drawable.eng2);
             }
         });
-        final ToggleButton BotonHab = (ToggleButton)findViewById(R.id.Led3);
-        BotonHab.setOnClickListener(new View.OnClickListener() {
+        final Button BotonStop = (Button)findViewById(R.id.stop_btn);
+        BotonStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View vv) {
-
-                if(BotonHab.isChecked())     {
-                    if(D) Log.e("BotonHab", "Encendiendo..");
-                    sendMessage("5\r");
-                    findViewById(R.id.Led3).setBackgroundResource(R.drawable.luz1);
-                }
-                else {
-                    if(D) Log.e("BotonHab", "Apagando..");
-                    sendMessage("6\r");
-                    findViewById(R.id.Led3).setBackgroundResource(R.drawable.luz2);
-                }
+                if (D) Log.e("Frenar", "Deteniendo..");
+                sendMessage("s\r");
+                //findViewById(R.id.progress).setVisibility(View.INVISIBLE);
+                findViewById(R.id.engranaje).setVisibility(View.INVISIBLE);
             }
-        });*/
+        });
+
+        final SeekBar Seekbar = (SeekBar)findViewById(R.id.seekBar1);
+        Seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+        {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar arg0, int progress, boolean arg2)
+            {
+                if(D) Log.e("Progress",String.valueOf(progress));
+                sendMessage("1\r");
+                //sendMessage(progress+"\r");
+            }
+        });
+
+
+
     }
 
     public  void onStart() {
@@ -163,7 +172,7 @@ public class MainActivity extends ActionBarActivity {
                 if(D) Log.e("conexion", "conectandonos");
                 vibrador = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrador.vibrate(1000);
-                String address = "20:13:05:02:04:09";//Direccion Mac del  rn42
+                String address = "20:13:05:02:04:09";//"20:13:05:02:04:09";//Direccion Mac del  rn42
                 BluetoothDevice device = AdaptadorBT.getRemoteDevice(address);
                 Servicio_BT.connect(device);
                 return true;
@@ -206,15 +215,17 @@ public class MainActivity extends ActionBarActivity {
                     String readMessage = new String(readBuf, 0, msg.arg1);
                     if(D) Log.e(TAG, "Message_read   =w= "+ readMessage);
                     if(readMessage.equals("A"))
-                        findViewById(R.id.Led1).setBackgroundResource(R.drawable.eng);
+                        findViewById(R.id.engranaje).setBackgroundResource(R.drawable.eng);
                     if(readMessage.equals("B"))
-                        findViewById(R.id.Led1).setBackgroundResource(R.drawable.eng2);
+                        findViewById(R.id.engranaje).setBackgroundResource(R.drawable.eng1);
                     if(readMessage.equals("C"))
-                        findViewById(R.id.Led1).setBackgroundResource(R.drawable.eng3);
+                        findViewById(R.id.engranaje).setBackgroundResource(R.drawable.eng2);
                     if(readMessage.equals("D"))
-                        findViewById(R.id.Led1).setBackgroundResource(R.drawable.luz1);
+                        findViewById(R.id.engranaje).setBackgroundResource(R.drawable.eng3);
                     if(readMessage.equals("E"))
-                        findViewById(R.id.Led1).setBackgroundResource(R.drawable.luz2);
+                        findViewById(R.id.engranaje).setBackgroundResource(R.drawable.luz1);
+                    if(readMessage.equals("R"))
+                        findViewById(R.id.progress).setVisibility(View.INVISIBLE);
                     break;
                 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 case Mensaje_Nombre_Dispositivo:
